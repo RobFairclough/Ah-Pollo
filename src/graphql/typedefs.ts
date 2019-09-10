@@ -34,6 +34,7 @@ export const typeDefs = gql`
         PinsLastUpdatedOn: String
         Sort: Int
         OldID: Int
+        Pins: [Pin]
     }
 
     # The "Query" type is the root of all GraphQL queries.
@@ -43,5 +44,6 @@ export const typeDefs = gql`
         singlePin(ID: Int!): Pin
         drawings: [Drawing]
         singleDrawing(ID: Int!): Drawing
+        getDrawingWithPins(ID: Int!): Drawing
     }
 `;

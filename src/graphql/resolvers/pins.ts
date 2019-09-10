@@ -1,4 +1,7 @@
-const { getPins, getPin } = require('src/db/queries');
+import { Drawing } from 'hierarchies';
+import {
+  getPins, getPin, getDrawing, getPinsForDrawing,
+} from '../../db/queries';
 
 export const pins = (parent: any, args: any, context: any, info: any) => {
   console.log({
@@ -26,4 +29,29 @@ export const pins = (parent: any, args: any, context: any, info: any) => {
 export const singlePin = (parent: any, { ID }: any) => {
   const pin = getPin(ID);
   return pin;
+};
+
+export const getDrawingWithPins = async (
+  parent: any,
+  { ID }: any,
+  context: any,
+  info: any,
+): Promise<Drawing> => {
+  const { fieldNodes } = info;
+  const selected = fieldNodes[0].selectionSet.selections;
+
+  const fieldNames = selected
+    .filter((field: any) => !field.selectionSet)
+    .map((field: any) => field.name.value);
+  const pinsSelections = selected.find(
+    (field: any) => field.name.value === 'Pins' && field.selectionSet,
+  ).selectionSet.selections;
+  const drawing = await getDrawing(ID);
+  let pins = null;
+  if (pinsSelections) {
+    const pinFieldNames = pinsSelections.map((field: any) => field.name.value);
+    pins = await getPinsForDrawing(ID);
+  }
+
+  return { ...drawing, Pins: pins };
 };

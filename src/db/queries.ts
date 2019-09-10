@@ -1,4 +1,4 @@
-import { Pin } from 'hierarchies';
+import { Pin, Drawing } from 'hierarchies';
 import { knex } from './connection';
 
 export const getPins = (chosenFields: string[] = ['*']) => knex
@@ -22,6 +22,19 @@ export const getDrawings = () => knex
   .limit(10)
   .then(drawings => drawings)
   .catch(console.log);
+
+export const getDrawing = (DrawingID: number) => knex
+  .select('*')
+  .from('Pins')
+  .where({ DrawingID })
+  .limit(1)
+  .then((drawings: Drawing[]) => {
+    const [drawing] = drawings;
+    return drawing;
+  })
+  .catch((e) => {
+    throw e;
+  });
 
 export const getPinsForDrawing = (DrawingID: number): Promise<Pin[]> => knex
   .select('*')

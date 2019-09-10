@@ -25,4 +25,5 @@ export interface Drawing {
         PinsLastUpdatedOn: String;
         Sort: Number;
         OldID: Number;
+        Pins?: Pin[];
 }
