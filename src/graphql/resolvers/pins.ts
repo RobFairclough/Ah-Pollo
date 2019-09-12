@@ -2,8 +2,9 @@ import { Drawing } from 'hierarchies';
 import {
   getPins, getPin, getDrawing, getPinsForDrawing,
 } from '../../db/queries';
+import { RequestContext } from '../../index';
 
-export const pins = (parent: any, args: any, context: any, info: any) => {
+export const pins = (parent: any, args: any, context: RequestContext, info: any) => {
   console.log({
     parent,
     args,

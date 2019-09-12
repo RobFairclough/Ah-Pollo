@@ -1,4 +1,4 @@
-import { Pin, Drawing } from 'hierarchies';
+import { Pin, Drawing, Alert } from 'hierarchies';
 import { knex } from './connection';
 
 export const getPins = (chosenFields: string[] = ['*']) => knex
@@ -41,6 +41,32 @@ export const getPinsForDrawing = (DrawingID: number): Promise<Pin[]> => knex
   .from('Pins')
   .where({ DrawingID })
   .then((pins: Pin[]): Pin[] => pins)
+  .catch((e) => {
+    throw e;
+  });
+
+export const getAlerts = () => knex
+  .select('*')
+  .from('OperativeAlerts')
+  .limit(10)
+  .orderBy('CreatedOn', 'desc')
+  .then((alerts: Alert[]) => alerts)
+  .catch((e) => {
+    throw e;
+  });
+
+export const getAlert = (ID: number) => knex
+  .select('*')
+  .from('OperativeAlerts')
+  .limit(1)
+  .where({ ID });
+
+export const createAlert = (alert: Alert): Promise<Alert> => knex('OperativeAlerts')
+  .insert(alert, '*')
+  .then((alerts: Alert[]): Alert => {
+    const [alert] = alerts;
+    return alert;
+  })
   .catch((e) => {
     throw e;
   });

@@ -37,6 +37,16 @@ export const typeDefs = gql`
         Pins: [Pin]
     }
 
+    type Alert {
+        ID: Int
+        CompanyID: Int
+        Message: String
+        CreatedOn: String
+        CreatedByCompanyUserID: Int
+        SiteID: Int
+        OperativeIDs: String
+    }
+
     # The "Query" type is the root of all GraphQL queries.
     # (A "Mutation" type will be covered later on.)
     type Query {
@@ -45,5 +55,10 @@ export const typeDefs = gql`
         drawings: [Drawing]
         singleDrawing(ID: Int!): Drawing
         getDrawingWithPins(ID: Int!): Drawing
+        alerts: [Alert]
+    }
+
+    type Mutation {
+        sendAlert(Message: String, OperativeIDs: String): Alert
     }
 `;

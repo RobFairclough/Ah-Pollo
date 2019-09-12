@@ -27,3 +27,13 @@ export interface Drawing {
         OldID: Number;
         Pins?: Pin[];
 }
+
+export interface Alert {
+        ID?: Number;
+        CompanyID: Number;
+        Message: String;
+        CreatedOn: Date;
+        CreatedByCompanyUserID: Number;
+        SiteID?: Number;
+        OperativeIDs: Number[];
+    }
