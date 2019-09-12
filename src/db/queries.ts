@@ -1,12 +1,16 @@
 import { Pin, Drawing, Alert } from 'hierarchies';
 import { knex } from './connection';
 
-export const getPins = (chosenFields: string[] = ['*']) => knex
+type ChosenFields = string[] | '*';
+
+export const getPins = (chosenFields: ChosenFields = '*') => knex
   .select(chosenFields)
   .from('Pins')
   .limit(10)
   .then(pins => pins)
-  .catch(console.log);
+  .catch((e) => {
+    throw e;
+  });
 
 export const getPin = (ID: number) => knex
   .select('*')
@@ -14,24 +18,25 @@ export const getPin = (ID: number) => knex
   .where({ ID })
   .limit(1)
   .then(([pin]) => pin)
-  .catch(console.log);
+  .catch((e) => {
+    throw e;
+  });
 
 export const getDrawings = () => knex
   .select('*')
   .from('Drawings')
   .limit(10)
   .then(drawings => drawings)
-  .catch(console.log);
+  .catch((e) => {
+    throw e;
+  });
 
 export const getDrawing = (DrawingID: number) => knex
   .select('*')
   .from('Pins')
   .where({ DrawingID })
   .limit(1)
-  .then((drawings: Drawing[]) => {
-    const [drawing] = drawings;
-    return drawing;
-  })
+  .then(([drawing]: Drawing[]) => drawing)
   .catch((e) => {
     throw e;
   });
@@ -59,12 +64,27 @@ export const getAlert = (ID: number) => knex
   .select('*')
   .from('OperativeAlerts')
   .limit(1)
-  .where({ ID });
+  .where({ ID })
+  .then(([alert]: Alert[]) => alert)
+  .catch((e) => {
+    throw e;
+  });
 
-export const createAlert = (alert: Alert): Promise<Alert> => knex('OperativeAlerts')
-  .insert(alert, '*')
-  .then((alerts: Alert[]): Alert => {
-    const [alert] = alerts;
+export const getLatestAlert = () => knex
+  .select('*')
+  .from('OperativeAlerts')
+  .limit(1)
+  .orderBy('CreatedOn', 'desc')
+  .then(([alert]: Alert[]) => alert)
+  .catch((e) => {
+    throw e;
+  });
+
+export const createAlert = async (alert: Alert): Promise<Alert> => knex('OperativeAlerts')
+  .insert(alert)
+  .then(async () => {
+    const alert = await getLatestAlert();
+    console.log(alert);
     return alert;
   })
   .catch((e) => {

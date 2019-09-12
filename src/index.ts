@@ -1,17 +1,14 @@
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer, ServerInfo } from 'apollo-server';
 import { ApolloServerExpressConfig } from 'apollo-server-express';
 import { typeDefs } from './graphql/typedefs';
 import { resolvers } from './graphql/resolvers';
+import { CompanyUserType } from './enums';
+import {  ContextFunction } from 'apollo-server-core';
 
 // resolves
 
 // todo some manner of camelcase converter thing?
 
-enum CompanyUserType {
-  Operative = 50,
-  Admin = 75,
-  Owner = 100
-}
 export interface RequestContext  {
   companyID: Number
   companyUserID: Number
@@ -19,9 +16,9 @@ export interface RequestContext  {
   id: Number
 }
 
-const context = ({ 
-  // req,
-  //  res
+const context: ContextFunction = ({ 
+    // req,
+    // res
    }): RequestContext => {
   // would decode jwt here but not today
   const companyID = 1912;
@@ -37,6 +34,6 @@ const apolloConfig: ApolloServerExpressConfig = { typeDefs, resolvers, context }
 
 const server: ApolloServer = new ApolloServer(apolloConfig);
 
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
+server.listen().then(({ url, port, address}:ServerInfo) => {
+  console.log(`🚀  Server ready at ${url}, running on port ${port} 🚀, lets lunch 🍔 and learn 👨‍🎓`);
 });
