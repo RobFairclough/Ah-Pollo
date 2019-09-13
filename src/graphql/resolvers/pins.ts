@@ -4,17 +4,16 @@ import {
 } from '../../db/queries';
 import { RequestContext } from '../../index';
 
-export const pins = (parent: any, args: any, context: RequestContext, info: any) => {
+export const pins = (parent: any, args: {}, context: RequestContext, info: any) => {
   console.log({
     parent,
     args,
     context,
     info,
   });
-  // an array of the chosen fields
+  //  an array of the chosen fields
   //   console.log(info.fieldNodes[0].selectionSet.selections);
   const { fieldNodes } = info;
-  console.log(fieldNodes);
   const {
     selectionSet: { selections },
   } = fieldNodes[0];
@@ -35,23 +34,25 @@ export const singlePin = (parent: any, { ID }: any) => {
 export const getDrawingWithPins = async (
   parent: any,
   { ID }: any,
-  context: any,
+  context: RequestContext,
   info: any,
 ): Promise<Drawing> => {
   const { fieldNodes } = info;
   const selected = fieldNodes[0].selectionSet.selections;
-
   const fieldNames = selected
     .filter((field: any) => !field.selectionSet)
     .map((field: any) => field.name.value);
+
   const pinsSelections = selected.find(
     (field: any) => field.name.value === 'Pins' && field.selectionSet,
   ).selectionSet.selections;
+
   const drawing = await getDrawing(ID);
+
   let pins = null;
   if (pinsSelections) {
     const pinFieldNames = pinsSelections.map((field: any) => field.name.value);
-    pins = await getPinsForDrawing(ID);
+    pins = await getPinsForDrawing(ID, pinFieldNames);
   }
 
   return { ...drawing, Pins: pins };

@@ -41,8 +41,11 @@ export const getDrawing = (DrawingID: number) => knex
     throw e;
   });
 
-export const getPinsForDrawing = (DrawingID: number): Promise<Pin[]> => knex
-  .select('*')
+export const getPinsForDrawing = (
+  DrawingID: number,
+  chosenFields: ChosenFields = '*',
+): Promise<Pin[]> => knex
+  .select(chosenFields)
   .from('Pins')
   .where({ DrawingID })
   .then((pins: Pin[]): Pin[] => pins)
