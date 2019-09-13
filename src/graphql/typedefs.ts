@@ -19,6 +19,7 @@ export const typeDefs = gql`
         IsDeleted: Boolean
         DeviceID: String
         OldID: Int
+        Drawing: Drawing
     }
 
     type Drawing {

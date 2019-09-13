@@ -1,39 +1,39 @@
-export interface Pin  {
-        ID: number;
-        UID: String
-        CreatedOn: String
-        CreatedByCompanyUserID: number;
-        DrawingID: number;
-        OperativeCode: String
-        PinNumber: number;
-        PinCode: String
-        IsDeleted: Boolean
-        DeviceID: String
-        OldID: number;
+export interface Pin {
+    ID: number;
+    UID: string;
+    CreatedOn: string;
+    CreatedByCompanyUserID: number;
+    DrawingID: number;
+    OperativeCode: string;
+    PinNumber: number;
+    PinCode: string;
+    IsDeleted: boolean;
+    DeviceID: string;
+    OldID: number;
 }
 
 export interface Drawing {
-        ID: Number;
-        FloorID: Number;
-        CreatedOn: String;
-        CreatedByCompanyUserID: Number;
-        Name: String;
-        IsArchived: Boolean;
-        IsDeleted: Boolean;
-        OwnerCompanyID: Number;
-        ExpiresOn: String;
-        PinsLastUpdatedOn: String;
-        Sort: Number;
-        OldID: Number;
-        Pins?: Pin[];
+    ID: number;
+    FloorID: number;
+    CreatedOn: string;
+    CreatedByCompanyUserID: number;
+    Name: string;
+    IsArchived: boolean;
+    IsDeleted: boolean;
+    OwnerCompanyID: number;
+    ExpiresOn: string;
+    PinsLastUpdatedOn: string;
+    Sort: number;
+    OldID: number;
+    Pins?: Pin[];
 }
 
 export interface Alert {
-        ID?: Number;
-        CompanyID: Number;
-        Message: String;
-        CreatedOn: Date;
-        CreatedByCompanyUserID: Number;
-        SiteID?: Number;
-        OperativeIDs: Number[];
-    }
+    ID?: number;
+    CompanyID: number;
+    Message: string;
+    CreatedOn: Date;
+    CreatedByCompanyUserID: number;
+    SiteID?: number;
+    OperativeIDs: number[];
+}

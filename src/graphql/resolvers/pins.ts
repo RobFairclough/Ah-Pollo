@@ -4,7 +4,7 @@ import {
 } from '../../db/queries';
 import { RequestContext } from '../../index';
 
-export const pins = (parent: any, args: {}, context: RequestContext, info: any) => {
+export const pins = (parent: undefined, args: {}, context: RequestContext, info: any) => {
   console.log({
     parent,
     args,
@@ -26,9 +26,17 @@ export const pins = (parent: any, args: {}, context: RequestContext, info: any) 
   return getPins(chosenFields);
 };
 
-export const singlePin = (parent: any, { ID }: any) => {
-  const pin = getPin(ID);
-  return pin;
+export const singlePin = async (parent: any, { ID }: any, x: any, info: any) => {
+  const pin = await getPin(ID);
+  const [relevantNode] = info.fieldNodes;
+  const {
+    selectionSet: { selections },
+  } = relevantNode;
+  let drawing;
+  if (selections.find((x: any) => x.name.value === 'Drawing')) {
+    drawing = await getDrawing(pin.DrawingID);
+  }
+  return { ...pin, Drawing: drawing };
 };
 
 export const getDrawingWithPins = async (

@@ -8,20 +8,18 @@ import {  ContextFunction } from 'apollo-server-core';
 // resolves
 export const pubsub = new PubSub();
 
-// todo some manner of camelcase converter thing?
-
 export interface RequestContext  {
-  companyID: Number
-  companyUserID: Number
+  companyID: number
+  companyUserID: number
   companyUserType: CompanyUserType
-  id: Number
+  id: number
 }
 
 const context: ContextFunction = ({ 
     // req,
     // res
    }): RequestContext => {
-  // would decode jwt here but not today
+  // would decode jwt here but not this day
   const companyID = 1912;
   const companyUserID = 5685;
   const companyUserType = CompanyUserType.Owner;
