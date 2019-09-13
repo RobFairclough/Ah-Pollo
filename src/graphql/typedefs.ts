@@ -61,4 +61,8 @@ export const typeDefs = gql`
     type Mutation {
         sendAlert(Message: String, OperativeIDs: String): Alert
     }
+
+    type Subscription {
+        newAlert: Alert
+    }
 `;

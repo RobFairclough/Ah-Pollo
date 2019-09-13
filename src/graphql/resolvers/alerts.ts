@@ -1,6 +1,8 @@
 import { Alert } from 'hierarchies';
-import { getAlerts, createAlert } from '../../db/queries';
-import { RequestContext } from '../../index';
+import { PubSub } from 'apollo-server';
+import { SubscriptionEvents } from 'enums';
+import { getAlerts, createAlert, getLatestAlert } from '../../db/queries';
+import { RequestContext, pubsub } from '../../index';
 
 export const alerts = () => getAlerts();
 
@@ -27,4 +29,7 @@ export const sendAlert = (
   console.log({ alert });
 
   createAlert(alert);
+  const newAlert = getLatestAlert();
+  pubsub.publish(SubscriptionEvents.NewAlert, { newAlert });
+  return newAlert;
 };

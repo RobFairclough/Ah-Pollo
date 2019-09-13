@@ -1,3 +1,4 @@
+import { newAlert } from '../subscriptions';
 import { getPins, getPin } from '../../db/queries';
 import { pins, singlePin, getDrawingWithPins } from './pins';
 import { alerts, sendAlert } from './alerts';
@@ -13,4 +14,6 @@ export const resolvers = {
   Mutation: {
     sendAlert,
   },
+
+  Subscription: { newAlert },
 };

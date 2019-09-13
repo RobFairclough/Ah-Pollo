@@ -1,11 +1,12 @@
 import { ApolloServer, ServerInfo } from 'apollo-server';
-import { ApolloServerExpressConfig } from 'apollo-server-express';
+import { ApolloServerExpressConfig, PubSub } from 'apollo-server-express';
 import { typeDefs } from './graphql/typedefs';
 import { resolvers } from './graphql/resolvers';
 import { CompanyUserType } from './enums';
 import {  ContextFunction } from 'apollo-server-core';
 
 // resolves
+export const pubsub = new PubSub();
 
 // todo some manner of camelcase converter thing?
 
